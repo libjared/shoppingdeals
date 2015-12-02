@@ -22,10 +22,14 @@ namespace WebApplication1.Controllers
             return vgs;
         }
 
-        public IEnumerable<VideoGame> GetGenesisVideoGames()
-        {
-            return vgs.Where(p => p.System == Platform.SegaGenesis);
-        }
+        // Can't define this method!
+        // Multiple signatures with 0 params are in this controller: GetAllVideoGames and GetGenesisVideoGames.
+        // Error given is "Multiple actions were found that match the request"
+
+        //public IEnumerable<VideoGame> GetGenesisVideoGames()
+        //{
+        //    return vgs.Where(p => p.System == Platform.SegaGenesis);
+        //}
 
         public IHttpActionResult GetVideoGame(int id)
         {
