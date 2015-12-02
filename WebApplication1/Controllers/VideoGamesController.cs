@@ -8,7 +8,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class VideoGamesOldController : ApiController
+    public class VideoGamesController : ApiController
     {
         private VideoGame[] vgs = new VideoGame[]
         {
