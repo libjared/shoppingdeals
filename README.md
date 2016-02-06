@@ -1,4 +1,4 @@
-# aspnet-apitest
+# ShoppingDeals
 
     $ curl http://localhost:50744/api/videogames/666
     {"Id":666,"Title":"Doom II","System":1}

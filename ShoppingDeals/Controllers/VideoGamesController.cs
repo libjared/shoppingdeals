@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebApplication1.Models;
+using ShoppingDeals.Models;
 
-namespace WebApplication1.Controllers
+namespace ShoppingDeals.Controllers
 {
     public class VideoGamesController : ApiController
     {
