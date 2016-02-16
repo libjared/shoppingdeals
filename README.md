@@ -1,11 +1,10 @@
 # ShoppingDeals
 
-    $ curl http://localhost:50744/api/videogames/666
-    {"Id":666,"Title":"Doom II","System":1}
-    
-    $ curl http://localhost:50744/api/videogames/
-    [
-        {"Id":1,"Title":"Sonic 3","System":0},
-        {"Id":2,"Title":"Dynamite Headdy","System":0},
-        {"Id":666,"Title":"Doom II","System":1}
-    ]
+## Description
+
+As project 1 for CS 292, this is a C# ASP.NET RESTful API using MongoDB.
+
+## How to Start
+
+* Start mongod instance (with -f mongod.conf if you wish)
+* Build and run ShoppingTests (VS 2015 community, .NET 4.5.2)
