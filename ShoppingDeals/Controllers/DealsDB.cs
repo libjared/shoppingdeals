@@ -25,7 +25,10 @@ namespace ShoppingDeals.Controllers
 
         public async Task<IEnumerable<Deal>> GetDealsAsync()
         {
-            throw new NotImplementedException();
+            var collection = db.GetCollection<Deal>("deals");
+            var c1 = await collection.FindAsync<Deal>(FilterDefinition<Deal>.Empty);
+            var deals = await c1.ToListAsync();
+            return deals;
         }
     }
 }
