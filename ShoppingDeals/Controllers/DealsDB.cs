@@ -1,25 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using ShoppingDeals.Models;
+using MongoDB.Driver;
 
 namespace ShoppingDeals.Controllers
 {
-    public class DealsDB
+    public class DealsDB : IDealsDB
     {
-        private MongoDB.Driver.MongoClient cli;
-        private MongoDB.Driver.IMongoDatabase db;
+        private MongoClient cli;
+        private IMongoDatabase db;
 
         public DealsDB()
         {
-            cli = new MongoDB.Driver.MongoClient("mongodb://localhost:27017");
+            cli = new MongoClient("mongodb://localhost:27017");
             db = cli.GetDatabase("shoppingdeals");
         }
 
-        public async void AddDeal(Deal deal)
+        public async void AddDealAsync(Deal deal)
         {
             var collection = db.GetCollection<Deal>("deals");
             await collection.InsertOneAsync(deal);
+        }
+
+        public async Task<IEnumerable<Deal>> GetDealsAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
