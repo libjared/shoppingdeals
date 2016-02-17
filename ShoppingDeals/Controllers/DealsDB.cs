@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace ShoppingDeals.Controllers
 {
-    public class DealsDB : IDealsDB
+    public class DealsDB
     {
         private MongoClient cli;
         private IMongoDatabase db;
