@@ -10,10 +10,10 @@ namespace ShoppingDeals.Controllers
         private MongoDB.Driver.MongoClient cli;
         private MongoDB.Driver.IMongoDatabase db;
 
-        public DealsDB(string dbname)
+        public DealsDB()
         {
             cli = new MongoDB.Driver.MongoClient("mongodb://localhost:27017");
-            db = cli.GetDatabase(dbname);
+            db = cli.GetDatabase("shoppingdeals");
         }
 
         public async void AddDeal(Deal deal)

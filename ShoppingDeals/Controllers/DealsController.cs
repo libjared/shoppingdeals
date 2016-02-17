@@ -13,7 +13,7 @@ namespace ShoppingDeals.Controllers
 
         public DealsController()
         {
-            db = new DealsDB("shoppingdeals");
+            db = new DealsDB();
         }
 
         [Route("")]
