@@ -134,7 +134,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DealsController.cs" />
-    <Compile Include="DealsDB.cs" />
+    <Compile Include="Controllers\DealsDB.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
