@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using ShoppingDeals.Models;
 
 namespace ShoppingDeals.Controllers
 {
@@ -12,6 +12,11 @@ namespace ShoppingDeals.Controllers
         public DealsDB(string dbname)
         {
             cli = new MongoDB.Driver.MongoClient("mongodb://localhost:27017");
+        }
+
+        public void AddDeal(Deal deal)
+        {
+
         }
     }
 }
