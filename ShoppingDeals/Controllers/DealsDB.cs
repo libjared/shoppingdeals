@@ -17,13 +17,28 @@ namespace ShoppingDeals.Controllers
             db = cli.GetDatabase("shoppingdeals");
         }
 
-        public async void AddDealAsync(Deal deal)
+        public void Reinitialize()
         {
+            //clear
+            db.DropCollection("deals");
+
+            //add a new test document
+            Deal testDeal = new Deal()
+            {
+                Username = "Jared",
+                ProductName = "Nintendo 3DS",
+                Price = 50.00m,
+                StoreName = "Amazon",
+                ZipCode = 1234,
+                ExpirationDate = DateTime.Now.AddYears(1),
+                Likes = 234,
+                Dislikes = 1,
+            };
             var collection = db.GetCollection<Deal>("deals");
-            await collection.InsertOneAsync(deal);
+            collection.InsertOne(testDeal);
         }
 
-        public async Task<IEnumerable<Deal>> GetDealsAsync()
+        public async Task<IEnumerable<Deal>> GetDeals()
         {
             var collection = db.GetCollection<Deal>("deals");
             var c1 = await collection.FindAsync<Deal>(FilterDefinition<Deal>.Empty);

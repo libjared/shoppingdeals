@@ -3,34 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using ShoppingDeals.Models;
+using System.Threading.Tasks;
+using System.Web.Http.Controllers;
 
 namespace ShoppingDeals.Controllers
 {
     [RoutePrefix("api/v1/deals")]
     public class DealsController : ApiController
     {
-        private DealsDB db;
+        private static DealsDB db;
 
         public DealsController()
         {
-            db = new DealsDB();
+            if (db == null)
+            {
+                db = new DealsDB();
+                db.Reinitialize();
+            }
         }
 
         [Route("")]
-        public IEnumerable<Deal> GetDeals()
+        public async Task<IEnumerable<Deal>> GetDeals()
         {
-            return new Deal[] {
-                new Deal() {
-                    Username = "Jared",
-                    ProductName = "Nintendo 3DS",
-                    Price = 50.00m,
-                    StoreName = "Amazon",
-                    ZipCode = 1234,
-                    ExpirationDate = DateTime.Now.AddYears(1),
-                    Likes = 234,
-                    Dislikes = 1,
-                }
-            };
+            return await db.GetDeals();
         }
     }
 }
