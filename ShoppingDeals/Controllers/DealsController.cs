@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Http;
 using ShoppingDeals.Models;
 using System.Threading.Tasks;
-using System.Web.Http.Controllers;
 
 namespace ShoppingDeals.Controllers
 {
