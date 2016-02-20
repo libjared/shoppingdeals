@@ -10,7 +10,7 @@ namespace ShoppingDeals.Models
         public decimal Price { get; set; }
         public string StoreName { get; set; }
         public int ZipCode { get; set; }
-        public DateTime ExpirationDate;
+        public DateTime ExpirationDate { get; set; }
         public int Likes { get; set; }
         public int Dislikes { get; set; }
     }
