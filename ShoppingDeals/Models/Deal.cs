@@ -1,4 +1,6 @@
 ﻿using System;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ShoppingDeals.Models
 {
@@ -13,5 +15,8 @@ namespace ShoppingDeals.Models
         public DateTime ExpirationDate { get; set; }
         public int Likes { get; set; }
         public int Dislikes { get; set; }
+
+        [BsonId]
+        private ObjectId Id = new ObjectId();
     }
 }
