@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ShoppingDeals.Controllers;
 using ShoppingDeals.Models;
 
-namespace ShoppingDeals.Controllers.Tests
+namespace ShoppingDealsTests
 {
     [TestClass]
     public class DealsDbTests
     {
-        private static DealsDb db;
+        private DealsDb db;
 
         [TestInitialize]
-        public void InitDB()
+        public void InitDb()
         {
             db = new DealsDb();
             db.Reinitialize();
