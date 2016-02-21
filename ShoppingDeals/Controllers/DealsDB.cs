@@ -19,30 +19,14 @@ namespace ShoppingDeals.Controllers
 
         public void Reinitialize()
         {
-            //clear
             db.DropCollection("deals");
 
             IMongoCollection<Deal> collection = CreateCollection();
-
-            //add a new test document
-            Deal testDeal = new Deal()
-            {
-                Username = "Jared",
-                ProductName = "Nintendo 3DS",
-                Price = 50.00m,
-                StoreName = "Amazon",
-                ZipCode = 1234,
-                ExpirationDate = DateTime.Now.AddYears(1),
-                Likes = 234,
-                Dislikes = 1,
-            };
-
-            collection.InsertOne(testDeal);
         }
 
         private IMongoCollection<Deal> CreateCollection()
         {
-            db.CreateCollection("deals");
+            db.CreateCollection("deals", new CreateCollectionOptions() { AutoIndexId = false });
             var collection = db.GetCollection<Deal>("deals");
             var keys = Builders<Deal>.IndexKeys
                 .Ascending("StoreName").Ascending("ProductName")
@@ -57,6 +41,13 @@ namespace ShoppingDeals.Controllers
             var c1 = await collection.FindAsync<Deal>(FilterDefinition<Deal>.Empty);
             var deals = await c1.ToListAsync();
             return deals;
+        }
+
+        public async Task AddDeal(Deal deal)
+        {
+            var collection = db.GetCollection<Deal>("deals");
+            await collection.InsertOneAsync(deal);
+            System.Diagnostics.Debug.WriteLine(collection.CountAsync(FilterDefinition<Deal>.Empty));
         }
     }
 }
