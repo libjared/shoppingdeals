@@ -12,7 +12,7 @@ namespace ShoppingDeals.Controllers.Tests
         private static DealsDB db;
 
         [TestInitialize]
-        public static void InitDB(TestContext ctx)
+        public void InitDB()
         {
             db = new DealsDB();
             db.Reinitialize();
