@@ -6,12 +6,12 @@ using MongoDB.Driver;
 
 namespace ShoppingDeals.Controllers
 {
-    public class DealsDB
+    public class DealsDb
     {
         private MongoClient cli;
         private IMongoDatabase db;
 
-        public DealsDB()
+        public DealsDb()
         {
             cli = new MongoClient("mongodb://localhost:27017");
             db = cli.GetDatabase("shoppingdeals");

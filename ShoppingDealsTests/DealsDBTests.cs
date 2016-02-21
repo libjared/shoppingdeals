@@ -9,12 +9,12 @@ namespace ShoppingDeals.Controllers.Tests
     [TestClass]
     public class DealsDBTests
     {
-        private static DealsDB db;
+        private static DealsDb db;
 
         [TestInitialize]
         public void InitDB()
         {
-            db = new DealsDB();
+            db = new DealsDb();
             db.Reinitialize();
             Task res = AddTestDeal();
             res.Wait();

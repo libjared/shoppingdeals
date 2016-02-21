@@ -10,13 +10,13 @@ namespace ShoppingDeals.Controllers
     [RoutePrefix("api/v1/deals")]
     public class DealsController : ApiController
     {
-        private static DealsDB db;
+        private static DealsDb db;
 
         public DealsController()
         {
             if (db == null)
             {
-                db = new DealsDB();
+                db = new DealsDb();
                 db.Reinitialize();
             }
         }
