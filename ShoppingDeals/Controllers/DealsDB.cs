@@ -22,6 +22,8 @@ namespace ShoppingDeals.Controllers
             //clear
             db.DropCollection("deals");
 
+            IMongoCollection<Deal> collection = CreateCollection();
+
             //add a new test document
             Deal testDeal = new Deal()
             {
@@ -34,8 +36,19 @@ namespace ShoppingDeals.Controllers
                 Likes = 234,
                 Dislikes = 1,
             };
-            var collection = db.GetCollection<Deal>("deals");
+
             collection.InsertOne(testDeal);
+        }
+
+        private IMongoCollection<Deal> CreateCollection()
+        {
+            db.CreateCollection("deals");
+            var collection = db.GetCollection<Deal>("deals");
+            var keys = Builders<Deal>.IndexKeys
+                .Ascending("StoreName").Ascending("ProductName")
+                .Ascending("ExpirationDate").Ascending("Price");
+            collection.Indexes.CreateOne(keys);
+            return collection;
         }
 
         public async Task<IEnumerable<Deal>> GetDeals()
