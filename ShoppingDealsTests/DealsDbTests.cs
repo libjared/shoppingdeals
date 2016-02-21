@@ -7,7 +7,7 @@ using ShoppingDeals.Models;
 namespace ShoppingDeals.Controllers.Tests
 {
     [TestClass]
-    public class DealsDBTests
+    public class DealsDbTests
     {
         private static DealsDb db;
 
