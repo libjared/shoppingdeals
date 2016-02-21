@@ -7,12 +7,11 @@ namespace ShoppingDeals.Controllers
 {
     public class DealsDb
     {
-        private MongoClient cli;
         private IMongoDatabase db;
 
         public DealsDb()
         {
-            cli = new MongoClient("mongodb://localhost:27017");
+            var cli = new MongoClient("mongodb://localhost:27017");
             db = cli.GetDatabase("shoppingdeals");
         }
 
@@ -20,10 +19,10 @@ namespace ShoppingDeals.Controllers
         {
             db.DropCollection("deals");
 
-            IMongoCollection<Deal> collection = CreateCollection();
+            CreateDealsCollection();
         }
 
-        private IMongoCollection<Deal> CreateCollection()
+        private void CreateDealsCollection()
         {
             db.CreateCollection("deals", new CreateCollectionOptions() { AutoIndexId = false });
             var collection = db.GetCollection<Deal>("deals");
@@ -31,7 +30,6 @@ namespace ShoppingDeals.Controllers
                 .Ascending("StoreName").Ascending("ProductName")
                 .Ascending("ExpirationDate").Ascending("Price");
             collection.Indexes.CreateOne(keys);
-            return collection;
         }
 
         public async Task<IEnumerable<Deal>> GetDeals()
