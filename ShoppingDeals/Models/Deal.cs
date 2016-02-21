@@ -16,7 +16,6 @@ namespace ShoppingDeals.Models
         public int Likes { get; set; }
         public int Dislikes { get; set; }
 
-        [BsonId]
-        private ObjectId Id = new ObjectId();
+        public ObjectId Id { get; set; }
     }
 }
