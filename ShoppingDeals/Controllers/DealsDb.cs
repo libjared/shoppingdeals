@@ -25,7 +25,7 @@ namespace ShoppingDeals.Controllers
 
         private void CreateDealsCollection()
         {
-            db.CreateCollection("deals", new CreateCollectionOptions { AutoIndexId = false });
+            db.CreateCollection("deals");
             var collection = db.GetCollection<Deal>("deals");
             var keys = Builders<Deal>.IndexKeys
                 .Ascending("StoreName").Ascending("ProductName")
