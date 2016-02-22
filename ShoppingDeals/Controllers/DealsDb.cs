@@ -8,29 +8,33 @@ namespace ShoppingDeals.Controllers
 {
     public class DealsDb
     {
-        private IMongoDatabase db;
+        private readonly IMongoDatabase db;
+        private readonly IMongoCollection<Deal> dealCollection;
+        private string CollectionName { get; }
 
-        public DealsDb()
+        public DealsDb(string collectionName)
         {
+            CollectionName = collectionName;
+
             var cli = new MongoClient("mongodb://localhost:27017");
             db = cli.GetDatabase("shoppingdeals");
+            dealCollection = db.GetCollection<Deal>(collectionName);
         }
 
         public void Reinitialize()
         {
-            db.DropCollection("deals");
+            db.DropCollection(CollectionName);
 
             CreateDealsCollection();
         }
 
         private void CreateDealsCollection()
         {
-            db.CreateCollection("deals");
-            var collection = db.GetCollection<Deal>("deals");
+            db.CreateCollection(CollectionName);
             var keys = Builders<Deal>.IndexKeys
                 .Ascending("StoreName").Ascending("ProductName")
                 .Ascending("ExpirationDate").Ascending("Price");
-            collection.Indexes.CreateOne(keys, new CreateIndexOptions
+            dealCollection.Indexes.CreateOne(keys, new CreateIndexOptions
             {
                 Unique = true
             });
@@ -38,18 +42,16 @@ namespace ShoppingDeals.Controllers
 
         public async Task<IEnumerable<Deal>> GetDeals()
         {
-            var collection = db.GetCollection<Deal>("deals");
-            var c1 = await collection.FindAsync<Deal>(FilterDefinition<Deal>.Empty);
+            var c1 = await dealCollection.FindAsync<Deal>(FilterDefinition<Deal>.Empty);
             var deals = await c1.ToListAsync();
             return deals;
         }
 
         public async Task AddDeal(Deal deal)
         {
-            var collection = db.GetCollection<Deal>("deals");
             try
             {
-                await collection.InsertOneAsync(deal);
+                await dealCollection.InsertOneAsync(deal);
             }
             catch (MongoWriteException whatException)
             {
@@ -57,8 +59,6 @@ namespace ShoppingDeals.Controllers
                     throw new ArgumentException("A deal with the same key has already been added.");
                 throw;
             }
-
-            System.Diagnostics.Debug.WriteLine(collection.CountAsync(FilterDefinition<Deal>.Empty));
         }
     }
 }
