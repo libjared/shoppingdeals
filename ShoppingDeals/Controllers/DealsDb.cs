@@ -41,13 +41,13 @@ namespace ShoppingDeals.Controllers
             });
         }
 
-        public async Task<IEnumerable<Deal>> GetDeals(string prod = null, string store = null, int? zip = null)
+        public async Task<IEnumerable<Deal>> GetDeals(string prod = null, string store = null, string zip = null)
         {
             var builder = Builders<Deal>.Filter;
 
             var filterP = prod != null ? builder.Eq("ProductName", prod) : FilterDefinition<Deal>.Empty;
             var filterS = store != null ? builder.Eq("StoreName", store) : FilterDefinition<Deal>.Empty;
-            var filterZ = zip != null ? builder.Eq("ZipCode", zip.Value) : FilterDefinition<Deal>.Empty;
+            var filterZ = zip != null ? builder.Eq("ZipCode", zip) : FilterDefinition<Deal>.Empty;
 
             var filterFinal = filterP & filterS & filterZ; 
 

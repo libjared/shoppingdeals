@@ -20,7 +20,7 @@ namespace ShoppingDeals.Controllers
         }
 
         [Route("")]
-        public async Task<IEnumerable<Deal>> GetDeals(string prod = null, string store = null, int? zip = null)
+        public async Task<IEnumerable<Deal>> GetDeals(string prod = null, string store = null, string zip = null)
         {
             return await db.GetDeals(prod, store, zip);
         }

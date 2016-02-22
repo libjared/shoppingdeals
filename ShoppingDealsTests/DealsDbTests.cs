@@ -27,7 +27,7 @@ namespace ShoppingDealsTests
                 productName: "Nintendo 3DS",
                 price: 50.00m,
                 storeName: "Amazon",
-                zipCode: 1234,
+                zipCode: "1234",
                 expirationDate: new DateTime(2016, 5, 18, 6, 32, 0)
             );
             await db.AddDeal(testDeal);
@@ -40,7 +40,7 @@ namespace ShoppingDealsTests
                 productName: "a pear of socks",
                 price: 0.25m,
                 storeName: "Amazon",
-                zipCode: 9876,
+                zipCode: "9876",
                 expirationDate: new DateTime(2017, 2, 8, 18, 20, 1)
             );
             await db.AddDeal(testDeal);
@@ -74,11 +74,11 @@ namespace ShoppingDealsTests
         }
 
         [Test]
-        [TestCase("a pear of socks", "Amazon", 9876, 1)]
-        [TestCase("Nintendo 3DS", "Amazon", 1234, 1)]
-        [TestCase(null, "Amazon", 1234, 1)]
+        [TestCase("a pear of socks", "Amazon", "9876", 1)]
+        [TestCase("Nintendo 3DS", "Amazon", "1234", 1)]
+        [TestCase(null, "Amazon", "1234", 1)]
         [TestCase(null, "Amazon", null, 2)]
-        public async Task TestGetSearch(string prod, string store, int? zip, int expectedCount)
+        public async Task TestGetSearch(string prod, string store, string zip, int expectedCount)
         {
             await AddTestDeal();
             await AddOtherTestDeal();
