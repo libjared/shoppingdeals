@@ -17,16 +17,16 @@ namespace ShoppingDeals.Models
             Dislikes = 0;
         }
 
-        public string ProductName { get; }
-        public string StoreName { get; }
-        public decimal Price { get; }
-        public DateTime ExpirationDate { get; }
-        public string Username { get; }
-        public int ZipCode { get; }
+        public string ProductName { get; private set; }
+        public string StoreName { get; private set; }
+        public decimal Price { get; private set; }
+        public DateTime ExpirationDate { get; private set; }
+        public string Username { get; private set; }
+        public int ZipCode { get; private set; }
         public int Likes { get; private set; }
         public int Dislikes { get; private set; }
 
-        public ObjectId Id;
+        public ObjectId Id { get; private set; }
 
         public void Like()
         {
