@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using ShoppingDeals.Controllers;
@@ -17,7 +18,6 @@ namespace ShoppingDealsTests
         {
             db = new DealsDb("test");
             await db.Reinitialize();
-            await AddTestDeal();
         }
 
         private async Task AddTestDeal()
@@ -36,12 +36,15 @@ namespace ShoppingDealsTests
         [Test]
         public async Task TestGet()
         {
-            IEnumerable<Deal> results = await db.GetDeals();
+            await AddTestDeal();
+            var results = await db.GetDeals();
+            Assert.That(results.Count(), Is.EqualTo(1));
         }
 
         [Test]
         public async Task TestDuplicate()
         {
+            await AddTestDeal();
             try
             {
                 await AddTestDeal();
