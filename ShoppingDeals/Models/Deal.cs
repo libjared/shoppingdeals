@@ -1,4 +1,5 @@
 ﻿using System;
+using MongoDB.Bson;
 
 namespace ShoppingDeals.Models
 {
@@ -25,7 +26,7 @@ namespace ShoppingDeals.Models
         public int Likes { get; private set; }
         public int Dislikes { get; private set; }
 
-        public int Id => GetHashCode();
+        public ObjectId Id;
 
         public void Like()
         {
@@ -35,19 +36,6 @@ namespace ShoppingDeals.Models
         public void Dislike()
         {
             Dislikes++;
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = 0;
-                hashCode = (hashCode * 397) ^ (ProductName?.GetHashCode() ?? 0);
-                hashCode = (hashCode * 397) ^ (StoreName?.GetHashCode() ?? 0);
-                hashCode = (hashCode * 397) ^ Price.GetHashCode();
-                hashCode = (hashCode * 397) ^ ExpirationDate.GetHashCode();
-                return hashCode;
-            }
         }
     }
 }

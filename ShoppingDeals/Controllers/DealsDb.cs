@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ShoppingDeals.Models;
 using MongoDB.Driver;
@@ -24,12 +25,15 @@ namespace ShoppingDeals.Controllers
 
         private void CreateDealsCollection()
         {
-            db.CreateCollection("deals", new CreateCollectionOptions() { AutoIndexId = false });
+            db.CreateCollection("deals", new CreateCollectionOptions { AutoIndexId = false });
             var collection = db.GetCollection<Deal>("deals");
             var keys = Builders<Deal>.IndexKeys
                 .Ascending("StoreName").Ascending("ProductName")
                 .Ascending("ExpirationDate").Ascending("Price");
-            collection.Indexes.CreateOne(keys);
+            collection.Indexes.CreateOne(keys, new CreateIndexOptions
+            {
+                Unique = true
+            });
         }
 
         public async Task<IEnumerable<Deal>> GetDeals()
@@ -43,7 +47,17 @@ namespace ShoppingDeals.Controllers
         public async Task AddDeal(Deal deal)
         {
             var collection = db.GetCollection<Deal>("deals");
-            await collection.InsertOneAsync(deal);
+            try
+            {
+                await collection.InsertOneAsync(deal);
+            }
+            catch (MongoWriteException whatException)
+            {
+                if (whatException.Message.Contains("E11000"))
+                    throw new ArgumentException("A deal with the same key has already been added.");
+                throw;
+            }
+
             System.Diagnostics.Debug.WriteLine(collection.CountAsync(FilterDefinition<Deal>.Empty));
         }
     }

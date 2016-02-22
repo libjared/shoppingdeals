@@ -41,6 +41,7 @@ namespace ShoppingDealsTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public async Task TestDuplicate()
         {
             await AddTestDeal(); //again
