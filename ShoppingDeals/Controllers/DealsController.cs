@@ -3,6 +3,9 @@ using System.Web.Http;
 using ShoppingDeals.Models;
 using System.Threading.Tasks;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable ClassNeverInstantiated.Global
+
 namespace ShoppingDeals.Controllers
 {
     [RoutePrefix("api/v1/deals")]
