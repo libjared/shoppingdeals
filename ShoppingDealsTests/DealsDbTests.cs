@@ -13,12 +13,11 @@ namespace ShoppingDealsTests
         private DealsDb db;
 
         [SetUp]
-        public void InitDb()
+        public async Task InitDb()
         {
             db = new DealsDb();
             db.Reinitialize();
-            Task res = AddTestDeal();
-            res.Wait();
+            await AddTestDeal();
         }
 
         private async Task AddTestDeal()
