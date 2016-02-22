@@ -28,7 +28,7 @@ namespace ShoppingDealsTests
                 price: 50.00m,
                 storeName: "Amazon",
                 zipCode: 1234,
-                expirationDate: DateTime.Now.AddYears(1)
+                expirationDate: new DateTime(2016, 5, 18, 6, 32, 0)
             );
             await db.AddDeal(testDeal);
         }
@@ -50,7 +50,11 @@ namespace ShoppingDealsTests
             {
                 return;
             }
-            Assert.Fail();
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.ToString());
+            }
+            Assert.Fail("No exception thrown");
         }
     }
 }
