@@ -21,20 +21,20 @@ namespace ShoppingDeals.Controllers
             dealCollection = db.GetCollection<Deal>(collectionName);
         }
 
-        public void Reinitialize()
+        public async Task Reinitialize()
         {
             db.DropCollection(CollectionName);
 
-            CreateDealsCollection();
+            await CreateDealsCollection();
         }
 
-        private void CreateDealsCollection()
+        private async Task CreateDealsCollection()
         {
-            db.CreateCollection(CollectionName);
+            await db.CreateCollectionAsync(CollectionName);
             var keys = Builders<Deal>.IndexKeys
                 .Ascending("StoreName").Ascending("ProductName")
                 .Ascending("ExpirationDate").Ascending("Price");
-            dealCollection.Indexes.CreateOne(keys, new CreateIndexOptions
+            await dealCollection.Indexes.CreateOneAsync(keys, new CreateIndexOptions
             {
                 Unique = true
             });

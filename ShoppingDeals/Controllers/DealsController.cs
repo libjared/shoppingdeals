@@ -10,13 +10,10 @@ namespace ShoppingDeals.Controllers
     {
         private static DealsDb db;
 
-        public DealsController()
+        public static async Task Initialize()
         {
-            if (db == null)
-            {
-                db = new DealsDb();
-                db.Reinitialize();
-            }
+            db = new DealsDb("deals");
+            await db.Reinitialize();
         }
 
         [Route("")]

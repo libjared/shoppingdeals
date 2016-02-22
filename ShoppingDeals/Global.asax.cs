@@ -7,6 +7,15 @@ namespace ShoppingDeals
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            InitControllerSync();
+        }
+
+        private static void InitControllerSync()
+        {
+            var task = Controllers.DealsController.Initialize();
+            task.ConfigureAwait(false);
+            task.Wait();
         }
     }
 }
