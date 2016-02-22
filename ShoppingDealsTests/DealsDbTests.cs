@@ -33,6 +33,19 @@ namespace ShoppingDealsTests
             await db.AddDeal(testDeal);
         }
 
+        private async Task AddOtherTestDeal()
+        {
+            Deal testDeal = new Deal(
+                username: "Mr. Lemon",
+                productName: "a pear of socks",
+                price: 0.25m,
+                storeName: "Amazon",
+                zipCode: 9876,
+                expirationDate: new DateTime(2017, 2, 8, 18, 20, 1)
+            );
+            await db.AddDeal(testDeal);
+        }
+
         [Test]
         public async Task TestGet()
         {
@@ -58,6 +71,21 @@ namespace ShoppingDealsTests
                 Assert.Fail(ex.ToString());
             }
             Assert.Fail("No exception thrown");
+        }
+
+        [Test]
+        [TestCase("a pear of socks", "Amazon", 9876, 1)]
+        [TestCase("Nintendo 3DS", "Amazon", 1234, 1)]
+        [TestCase(null, "Amazon", 1234, 1)]
+        [TestCase(null, "Amazon", null, 2)]
+        public async Task TestGetSearch(string prod, string store, int? zip, int expectedCount)
+        {
+            await AddTestDeal();
+            await AddOtherTestDeal();
+
+            var results = await db.GetDeals(prod, store, zip);
+            var deals = results.ToList();
+            Assert.That(deals.Count, Is.EqualTo(expectedCount));
         }
     }
 }

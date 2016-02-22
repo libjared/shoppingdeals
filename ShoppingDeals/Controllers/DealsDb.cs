@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using ShoppingDeals.Models;
 using MongoDB.Driver;
@@ -40,12 +41,20 @@ namespace ShoppingDeals.Controllers
             });
         }
 
-        public async Task<IEnumerable<Deal>> GetDeals()
+        public async Task<IEnumerable<Deal>> GetDeals(string prod = null, string store = null, int? zip = null)
         {
-            var c1 = await dealCollection.FindAsync<Deal>(FilterDefinition<Deal>.Empty);
-            var deals = await c1.ToListAsync();
+            var builder = Builders<Deal>.Filter;
+
+            var filterP = prod != null ? builder.Eq("ProductName", prod) : FilterDefinition<Deal>.Empty;
+            var filterS = store != null ? builder.Eq("StoreName", store) : FilterDefinition<Deal>.Empty;
+            var filterZ = zip != null ? builder.Eq("ZipCode", zip.Value) : FilterDefinition<Deal>.Empty;
+
+            var filterFinal = filterP & filterS & filterZ; 
+
+            var cursor = await dealCollection.FindAsync<Deal>(filterFinal);
+            var deals = await cursor.ToListAsync();
             return deals;
-        }
+        } 
 
         public async Task AddDeal(Deal deal)
         {
