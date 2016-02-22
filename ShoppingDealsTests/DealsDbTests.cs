@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using ShoppingDeals.Controllers;
 using ShoppingDeals.Models;
 
 namespace ShoppingDealsTests
 {
-    [TestClass]
+    [TestFixture]
     public class DealsDbTests
     {
         private DealsDb db;
 
-        [TestInitialize]
+        [SetUp]
         public void InitDb()
         {
             db = new DealsDb();
@@ -34,18 +34,24 @@ namespace ShoppingDealsTests
             await db.AddDeal(testDeal);
         }
 
-        [TestMethod]
+        [Test]
         public async Task TestGet()
         {
             IEnumerable<Deal> results = await db.GetDeals();
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Test]
         public async Task TestDuplicate()
         {
-            await AddTestDeal(); //again
-            //TODO: make this fail
+            try
+            {
+                await AddTestDeal();
+            }
+            catch (ArgumentException)
+            {
+                return;
+            }
+            Assert.Fail();
         }
     }
 }
