@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -22,7 +21,7 @@ namespace ShoppingDealsTests
 
         private async Task AddTestDeal()
         {
-            Deal testDeal = new Deal(
+            var testDeal = new Deal(
                 username: "Jared",
                 productName: "Nintendo 3DS",
                 price: 50.00m,
@@ -35,7 +34,7 @@ namespace ShoppingDealsTests
 
         private async Task AddOtherTestDeal()
         {
-            Deal testDeal = new Deal(
+            var testDeal = new Deal(
                 username: "Mr. Lemon",
                 productName: "a pear of socks",
                 price: 0.25m,
