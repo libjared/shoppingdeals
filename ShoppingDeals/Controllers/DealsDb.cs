@@ -23,7 +23,7 @@ namespace ShoppingDeals.Controllers
 
         public async Task Reinitialize()
         {
-            db.DropCollection(CollectionName);
+            await db.DropCollectionAsync(CollectionName);
 
             await CreateDealsCollection();
         }
