@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using ShoppingDeals.Models;
 using System.Threading.Tasks;
 
 // ReSharper disable UnusedMember.Global
@@ -20,9 +20,10 @@ namespace ShoppingDeals.Controllers
         }
 
         [Route("")]
-        public async Task<IEnumerable<Deal>> GetDeals(string prod = null, string store = null, string zip = null)
+        public async Task<HttpResponseMessage> GetDeals(string prod = null, string store = null, string zip = null)
         {
-            return await db.GetDeals(prod, store, zip);
+            var data = await db.GetDeals(prod, store, zip);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }
 }
