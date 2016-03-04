@@ -67,7 +67,6 @@ namespace ShoppingDeals.Controllers
             {
                 if (whatException.Message.Contains("E11000"))
                     throw new ArgumentException("A deal with the same key has already been added.");
-                throw;
             }
         }
     }
