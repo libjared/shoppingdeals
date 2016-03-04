@@ -14,7 +14,6 @@ namespace ShoppingDealsTests
         {
             var testDeal = new Deal
             {
-                Username = "Jared",
                 ProductName = "Nintendo 3DS",
                 Price = 50.00m,
                 StoreName = "Amazon",
@@ -28,7 +27,6 @@ namespace ShoppingDealsTests
         {
             var testDeal = new Deal
             {
-                Username = "Mr. Lemon",
                 ProductName = "a pear of socks",
                 Price = 0.25m,
                 StoreName = "Amazon",
@@ -100,7 +98,7 @@ namespace ShoppingDealsTests
                        "}";
             var token = JToken.Parse(json);
             var postedDeal = token.ToObject<PostedDeal>();
-            var deal = postedDeal.ToDeal();
+            var deal = postedDeal.ToDeal(new User("user", "pass"));
 
             Assert.That(deal.ProductName, Is.EqualTo("Bread"));
             Assert.That(deal.Price, Is.EqualTo(10.00m));

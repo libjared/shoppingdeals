@@ -47,7 +47,7 @@ namespace ShoppingDeals.Controllers
                 return Request.CreateResponse(HttpStatusCode.Unauthorized);
             }
 
-            await db.AddDeal(postedDeal.ToDeal());
+            await db.AddDeal(postedDeal.ToDeal(authUser));
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 

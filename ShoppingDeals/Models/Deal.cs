@@ -14,7 +14,7 @@ namespace ShoppingDeals.Models
         public string StoreName { get; set; }
         public decimal Price { get; set; }
         public DateTime ExpirationDate { get; set; }
-        public string Username { get; set; }
+        public ObjectId UserPostedBy { get; set; }
         public string ZipCode { get; set; }
         public int Likes { get; set; }
         public int Dislikes { get; set; }
@@ -30,7 +30,7 @@ namespace ShoppingDeals.Models
         public DateTime ExpirationDate { get; set; }
         public string ZipCode { get; set; }
 
-        public Deal ToDeal()
+        public Deal ToDeal(User postedBy)
         {
             return new Deal
             {
@@ -38,7 +38,8 @@ namespace ShoppingDeals.Models
                 StoreName = StoreName,
                 Price = Price,
                 ExpirationDate = ExpirationDate,
-                ZipCode = ZipCode
+                ZipCode = ZipCode,
+                UserPostedBy = postedBy.Id
             };
         }
     }
