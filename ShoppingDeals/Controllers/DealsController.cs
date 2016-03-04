@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
@@ -44,9 +46,17 @@ namespace ShoppingDeals.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        private bool IsValidPostedDeal(JToken jsonbody)
+        private static bool IsValidPostedDeal(JToken token)
         {
-            return false;
+            return HasKeys(token, new List<string>
+            {
+                "ProductName", "StoreName", "Price", "ExpirationDate", "ZipCode"
+            });
+        }
+
+        private static bool HasKeys(JToken token, List<string> keys)
+        {
+            return keys.All(k => token[k] != null);
         }
     }
 }
