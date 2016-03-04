@@ -29,7 +29,7 @@ namespace ShoppingDealsTests
             //like the deal
             await db.RateDeal(testDeal, testUser, true);
             //make sure it's still liked
-            int rating = await db.GetRating(testDeal);
+            var rating = await db.GetRating(testDeal);
             Assert.That(rating, Is.EqualTo(1));
         }
     }
