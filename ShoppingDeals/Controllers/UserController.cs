@@ -29,7 +29,7 @@ namespace ShoppingDeals.Controllers
             {
                 await db.RegisterUser(user.Name, user.Password);
             }
-            catch (AlreadyExistsException ex)
+            catch (AlreadyExistsException)
             {
                 return Request.CreateResponse(HttpStatusCode.Conflict);
             }
