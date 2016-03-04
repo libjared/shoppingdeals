@@ -46,13 +46,7 @@ namespace ShoppingDeals.Controllers
 
         private static byte[] GenerateSalt()
         {
-            var howmanybytes = SaltLength;
-            return GenerateRandomBytes(howmanybytes);
-        }
-
-        public static byte[] GenerateRandomBytes(int howmanybytes)
-        {
-            var salt = new byte[howmanybytes];
+            var salt = new byte[SaltLength];
             using (var rng = new RNGCryptoServiceProvider())
             {
                 rng.GetBytes(salt);

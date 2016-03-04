@@ -10,7 +10,7 @@ namespace ShoppingDeals.Controllers
     {
         private const string UserCollectionName = "user";
         private readonly IMongoCollection<User> userCollection;
-        private Dictionary<string, User> LoggedInUsers { get; }
+        private Dictionary<Guid, User> LoggedInUsers { get; }
 
         private async Task CreateUserCollection()
         {
@@ -31,7 +31,7 @@ namespace ShoppingDeals.Controllers
             await AddUser(thisUser);
         }
 
-        public async Task<string> LoginUser(string username, string password)
+        public async Task<Guid> LoginUser(string username, string password)
         {
             var thisUser = await GetUserByName(username);
             if (thisUser == null) //user does not exist
@@ -46,9 +46,8 @@ namespace ShoppingDeals.Controllers
             }
 
             //login success. generate api key and log him in
-            var uniqBytes = PasswordStorage.GenerateRandomBytes(30);
-            var apiKey = Convert.ToBase64String(uniqBytes);
-            LoggedInUsers.Add(apiKey, thisUser);
+            var apiKey = Guid.NewGuid();
+            LoggedInUsers.Add(Guid.NewGuid(), thisUser);
             return apiKey;
         }
 

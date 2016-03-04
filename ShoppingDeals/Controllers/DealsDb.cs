@@ -19,7 +19,7 @@ namespace ShoppingDeals.Controllers
             db = cli.GetDatabase(databaseName);
             dealCollection = db.GetCollection<Deal>(DealsCollectionName);
             userCollection = db.GetCollection<User>(UserCollectionName);
-            LoggedInUsers = new Dictionary<string, User>();
+            LoggedInUsers = new Dictionary<Guid, User>();
         }
 
         public async Task Reinitialize()
