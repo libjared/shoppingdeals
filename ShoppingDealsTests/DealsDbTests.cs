@@ -21,27 +21,29 @@ namespace ShoppingDealsTests
 
         private async Task AddTestDeal()
         {
-            var testDeal = new Deal(
-                username: "Jared",
-                productName: "Nintendo 3DS",
-                price: 50.00m,
-                storeName: "Amazon",
-                zipCode: "1234",
-                expirationDate: new DateTime(2016, 5, 18, 6, 32, 0)
-            );
+            var testDeal = new Deal
+            {
+                Username = "Jared",
+                ProductName = "Nintendo 3DS",
+                Price = 50.00m,
+                StoreName = "Amazon",
+                ZipCode = "1234",
+                ExpirationDate = new DateTime(2016, 5, 18, 6, 32, 0)
+            };
             await db.AddDeal(testDeal);
         }
 
         private async Task AddOtherTestDeal()
         {
-            var testDeal = new Deal(
-                username: "Mr. Lemon",
-                productName: "a pear of socks",
-                price: 0.25m,
-                storeName: "Amazon",
-                zipCode: "9876",
-                expirationDate: new DateTime(2017, 2, 8, 18, 20, 1)
-            );
+            var testDeal = new Deal
+            {
+                Username = "Mr. Lemon",
+                ProductName = "a pear of socks",
+                Price = 0.25m,
+                StoreName = "Amazon",
+                ZipCode = "9876",
+                ExpirationDate = new DateTime(2017, 2, 8, 18, 20, 1)
+            };
             await db.AddDeal(testDeal);
         }
 
