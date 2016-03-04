@@ -137,6 +137,7 @@
     <Compile Include="Controllers\DealsDb.cs" />
     <Compile Include="Controllers\PasswordStorage.cs" />
     <Compile Include="Controllers\StaticDealsDb.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -14,6 +14,7 @@ namespace ShoppingDeals
         private static void InitControllerSync()
         {
             Controllers.DealsController.Initialize();
+            Controllers.UserController.Initialize();
         }
     }
 }
