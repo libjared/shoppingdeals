@@ -13,9 +13,7 @@ namespace ShoppingDeals
 
         private static void InitControllerSync()
         {
-            var task = Controllers.DealsController.Initialize();
-            task.ConfigureAwait(false);
-            task.Wait();
+            Controllers.DealsController.Initialize();
         }
     }
 }

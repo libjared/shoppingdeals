@@ -17,12 +17,10 @@ namespace ShoppingDeals.Controllers
     {
         private static DealsDb db;
 
-        public static async Task Initialize()
+        public static void Initialize()
         {
             StaticDealsDb.Initialize("shoppingdeals");
             db = StaticDealsDb.Db;
-
-            await db.Reinitialize();
         }
 
         [Route("")]
