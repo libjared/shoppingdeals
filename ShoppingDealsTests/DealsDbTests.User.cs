@@ -78,7 +78,7 @@ namespace ShoppingDealsTests
             {
                 await db.LoginUser("deraj", "securepassw0rd");
             }
-            catch (ArgumentException)
+            catch (CredentialsException)
             {
                 return;
             }
@@ -97,7 +97,7 @@ namespace ShoppingDealsTests
             {
                 await db.LoginUser("jared", "wr00000ngpassword");
             }
-            catch (ArgumentException)
+            catch (CredentialsException)
             {
                 return;
             }
