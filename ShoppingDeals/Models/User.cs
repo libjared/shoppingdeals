@@ -1,4 +1,10 @@
 ﻿using MongoDB.Bson;
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable NonReadonlyMemberInGetHashCode
 
 namespace ShoppingDeals.Models
 {
