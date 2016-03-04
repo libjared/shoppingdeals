@@ -33,30 +33,10 @@ namespace ShoppingDeals.Controllers
 
         [Route("")]
         [HttpPost]
-        public async Task<HttpResponseMessage> PostDeal([FromBody]JToken jsonbody)
+        public async Task<HttpResponseMessage> PostDeal(PostedDeal postedDeal)
         {
-            if (!IsValidPostedDeal(jsonbody))
-            {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
-
-            var postedDeal = jsonbody.ToObject<PostedDeal>();
-
             await db.AddDeal(postedDeal.ToDeal());
             return new HttpResponseMessage(HttpStatusCode.OK);
-        }
-
-        private static bool IsValidPostedDeal(JToken token)
-        {
-            return HasKeys(token, new List<string>
-            {
-                "ProductName", "StoreName", "Price", "ExpirationDate", "ZipCode"
-            });
-        }
-
-        private static bool HasKeys(JToken token, List<string> keys)
-        {
-            return keys.All(k => token[k] != null);
         }
     }
 }
