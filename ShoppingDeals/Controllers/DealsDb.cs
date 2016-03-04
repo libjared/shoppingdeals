@@ -9,12 +9,9 @@ namespace ShoppingDeals.Controllers
     public partial class DealsDb
     {
         private readonly IMongoDatabase db;
-        private string DatabaseName { get; }
 
         public DealsDb(string databaseName)
         {
-            DatabaseName = databaseName;
-
             var cli = new MongoClient("mongodb://localhost:27017");
             db = cli.GetDatabase(databaseName);
             dealCollection = db.GetCollection<Deal>(DealsCollectionName);
