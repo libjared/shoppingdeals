@@ -16,8 +16,7 @@ namespace ShoppingDeals.Models
         public DateTime ExpirationDate { get; set; }
         public ObjectId UserPostedBy { get; set; }
         public string ZipCode { get; set; }
-        public int Likes { get; set; }
-        public int Dislikes { get; set; }
+        public int Rating { get; set; }
 
         public ObjectId Id { get; set; }
 
@@ -47,5 +46,13 @@ namespace ShoppingDeals.Models
                 UserPostedBy = postedBy.Id
             };
         }
+    }
+
+    public class RatingRequest
+    {
+        public string ProductName { get; set; }
+        public string StoreName { get; set; }
+        public decimal Price { get; set; }
+        public DateTime ExpirationDate { get; set; }
     }
 }

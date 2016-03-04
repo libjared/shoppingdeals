@@ -51,6 +51,37 @@ namespace ShoppingDeals.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
+        [Route("like")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> PostLike(RatingRequest ratingRequest)
+        {
+            return await Rate(ratingRequest, true);
+        }
+
+        [Route("dislike")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> PostDislike(RatingRequest ratingRequest)
+        {
+            return await Rate(ratingRequest, false);
+        }
+
+        private async Task<HttpResponseMessage> Rate(RatingRequest ratingRequest, bool isPositive)
+        {
+            var authUser = GetThisAuthenticatedUser();
+            if (authUser == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized);
+            }
+
+            var theDeal =
+                await
+                    db.GetSpecificDeal(ratingRequest.StoreName, ratingRequest.ProductName, ratingRequest.ExpirationDate,
+                        ratingRequest.Price);
+
+            await db.RateDeal(theDeal, authUser, isPositive);
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
         private User GetThisAuthenticatedUser()
         {
             //check if apikey is in the headers

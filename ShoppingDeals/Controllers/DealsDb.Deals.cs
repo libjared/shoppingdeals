@@ -23,6 +23,24 @@ namespace ShoppingDeals.Controllers
             });
         }
 
+        public async Task<Deal> GetSpecificDeal(string storeName, string productName, DateTime expiration, decimal price)
+        {
+            var builder = Builders<Deal>.Filter;
+
+            var filterS = builder.Eq("StoreName", storeName);
+            var filterP = builder.Eq("ProductName", productName);
+            var filterE = builder.Eq("ExpirationDate", expiration);
+            var filterD = builder.Eq("Price", price);
+
+            var filterFinal = filterS & filterP & filterE & filterD;
+
+            var cursor = await dealCollection.FindAsync<Deal>(filterFinal);
+            var deal = await cursor.FirstOrDefaultAsync();
+
+            await SetRating(deal);
+            return deal;
+        }
+
         public async Task<IEnumerable<Deal>> GetDeals(string prod = null, string store = null, string zip = null)
         {
             var builder = Builders<Deal>.Filter;
@@ -35,7 +53,23 @@ namespace ShoppingDeals.Controllers
 
             var cursor = await dealCollection.FindAsync<Deal>(filterFinal);
             var deals = await cursor.ToListAsync();
+
+            await SetAllRatings(deals);
             return deals;
+        }
+
+        private async Task SetAllRatings(IEnumerable<Deal> deals)
+        {
+            foreach (var deal in deals)
+            {
+                await SetRating(deal);
+            }
+        }
+
+        private async Task SetRating(Deal deal)
+        {
+            var rating = await GetRating(deal);
+            deal.Rating = rating;
         }
 
         public async Task AddDeal(Deal deal)
