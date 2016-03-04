@@ -90,6 +90,7 @@ namespace ShoppingDealsTests
                 ExpirationDate = DateTime.Now.AddSeconds(5)
             };
             await db.AddDeal(testDeal);
+            await db.RateDeal(testDeal, new User("user", "pass"), true);
 
             //see if it's still there
             var found = db.GetSpecificDeal(testDeal.StoreName, testDeal.ProductName, testDeal.ExpirationDate, testDeal.Price);

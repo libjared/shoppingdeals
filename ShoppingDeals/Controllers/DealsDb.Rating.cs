@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using ShoppingDeals.Models;
@@ -19,6 +20,13 @@ namespace ShoppingDeals.Controllers
             {
                 Unique = true
             });
+
+            var expireKeys = Builders<Rating>.IndexKeys
+                .Ascending("ExpirationDate");
+            await ratingCollection.Indexes.CreateOneAsync(expireKeys, new CreateIndexOptions<Rating>
+            {
+                ExpireAfter = new TimeSpan(0L) //0 means interpret key as date
+            });
         }
 
         public async Task RateDeal(Deal whatDeal, User asUser, bool isPositive)
@@ -31,7 +39,8 @@ namespace ShoppingDeals.Controllers
             var updateDef = Builders<Rating>.Update
                 .Set("AboutDeal", whatDeal.Id)
                 .Set("AboutUser", asUser.Id)
-                .Set("IsPositive", isPositive);
+                .Set("IsPositive", isPositive)
+                .Set("ExpirationDate", whatDeal.ExpirationDate);
             await ratingCollection.UpdateOneAsync(filterFinal, updateDef, new UpdateOptions { IsUpsert = true });
         }
 

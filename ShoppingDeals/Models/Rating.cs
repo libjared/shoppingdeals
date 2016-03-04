@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -11,6 +12,7 @@ namespace ShoppingDeals.Models
         public ObjectId AboutDeal { get; set; }
         public ObjectId AboutUser { get; set; }
         public bool IsPositive { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
         public ObjectId Id { get; set; }
 
@@ -19,6 +21,7 @@ namespace ShoppingDeals.Models
             AboutDeal = aboutDeal.Id;
             AboutUser = aboutUser.Id;
             IsPositive = isPositive;
+            ExpirationDate = aboutDeal.ExpirationDate;
         }
     }
 }
