@@ -39,7 +39,7 @@ namespace ShoppingDealsTests
         }
 
         [Test]
-        public async Task TestGet()
+        public async Task TestDealsGet()
         {
             await AddTestDeal();
             var results = await db.GetDeals();
@@ -47,7 +47,7 @@ namespace ShoppingDealsTests
         }
 
         [Test]
-        public async Task TestDuplicate()
+        public async Task TestDealsDuplicate()
         {
             await AddTestDeal();
             try
@@ -70,7 +70,7 @@ namespace ShoppingDealsTests
         [TestCase("Nintendo 3DS", "Amazon", "1234", 1)]
         [TestCase(null, "Amazon", "1234", 1)]
         [TestCase(null, "Amazon", null, 2)]
-        public async Task TestGetSearch(string prod, string store, string zip, int expectedCount)
+        public async Task TestDealsGetSearch(string prod, string store, string zip, int expectedCount)
         {
             await AddTestDeal();
             await AddOtherTestDeal();
