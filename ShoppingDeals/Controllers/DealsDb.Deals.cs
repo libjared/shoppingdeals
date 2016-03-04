@@ -17,7 +17,7 @@ namespace ShoppingDeals.Controllers
             var keys = Builders<Deal>.IndexKeys
                 .Ascending("StoreName").Ascending("ProductName")
                 .Ascending("ExpirationDate").Ascending("Price");
-            await dealCollection.Indexes.CreateOneAsync(keys, new CreateIndexOptions
+            await dealCollection.Indexes.CreateOneAsync(keys, new CreateIndexOptions<Deal>
             {
                 Unique = true
             });
