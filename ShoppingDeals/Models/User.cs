@@ -2,13 +2,31 @@
 
 namespace ShoppingDeals.Models
 {
+    /// <summary>
+    /// A user that uses the Deals DB
+    /// </summary>
     public class User
     {
+        /// <summary>
+        /// The username
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The salted and hashed password
+        /// </summary>
         public string PasswordHash { get; set; }
 
+        /// <summary>
+        /// The MongoDB unique identifier
+        /// </summary>
         public ObjectId Id { get; set; }
 
+        /// <summary>
+        /// Constructs a <see cref="User"/> with the given username and password hash
+        /// </summary>
+        /// <param name="name">The username</param>
+        /// <param name="passwordHash">The password hash</param>
         public User(string name, string passwordHash)
         {
             Name = name;
@@ -19,7 +37,7 @@ namespace ShoppingDeals.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == this.GetType() && Equals((User)obj);
+            return obj.GetType() == this.GetType() && Equals((User) obj);
         }
 
         private bool Equals(User other)
@@ -33,7 +51,7 @@ namespace ShoppingDeals.Models
         {
             unchecked
             {
-                return ((Name?.GetHashCode() ?? 0) * 397) ^ (PasswordHash?.GetHashCode() ?? 0);
+                return ((Name?.GetHashCode() ?? 0)*397) ^ (PasswordHash?.GetHashCode() ?? 0);
             }
         }
     }
