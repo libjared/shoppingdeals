@@ -1,5 +1,8 @@
 ﻿using System;
 using MongoDB.Bson;
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace ShoppingDeals.Models
 {
