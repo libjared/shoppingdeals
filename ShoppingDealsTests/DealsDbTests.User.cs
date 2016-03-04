@@ -1,12 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using ShoppingDeals.Controllers;
 using ShoppingDeals.Models;
 
 namespace ShoppingDealsTests
 {
     public partial class DealsDbTests
     {
+        private async Task RegUserTestA()
+        {
+            await db.RegisterUser("jared", "securepassw0rd");
+        }
+
+        private async Task<Guid> LoginUserTestA()
+        {
+            return await db.LoginUser("jared", "securepassw0rd");
+        }
+
         [Test]
         public void TestUserEquality()
         {
@@ -20,16 +31,16 @@ namespace ShoppingDealsTests
         [Test]
         public async Task TestUserRegister()
         {
-            await db.RegisterUser("jared", "securepassw0rd");
+            await RegUserTestA();
         }
 
         [Test]
         public async Task TestUserDuplicate()
         {
-            await db.RegisterUser("jared", "securepassw0rd");
+            await RegUserTestA();
             try
             {
-                await db.RegisterUser("jared", "securepassw0rd");
+                await RegUserTestA();
             }
             catch (AlreadyExistsException)
             {
@@ -40,6 +51,23 @@ namespace ShoppingDealsTests
                 Assert.Fail(ex.ToString());
             }
             Assert.Fail("No exception thrown");
+        }
+
+        [Test]
+        public async Task TestLogin()
+        {
+            await RegUserTestA();
+            var apikey = await LoginUserTestA();
+            Assert.That(apikey, Is.Not.EqualTo(Guid.Empty));
+        }
+
+        [Test]
+        public async Task TestLoginDuplicate()
+        {
+            await RegUserTestA();
+            var apikey1 = await LoginUserTestA();
+            var apikey2 = await LoginUserTestA(); //login again, making a new key
+            Assert.That(apikey1, Is.Not.EqualTo(apikey2));
         }
     }
 }
