@@ -137,6 +137,7 @@
     <Compile Include="Controllers\DealsController.cs" />
     <Compile Include="Controllers\DealsDb.cs" />
     <Compile Include="Controllers\DealsDb.Deals.cs" />
+    <Compile Include="Controllers\DealsDb.Rating.cs" />
     <Compile Include="Controllers\DealsDb.User.cs" />
     <Compile Include="Controllers\PasswordStorage.cs" />
     <Compile Include="Controllers\StaticDealsDb.cs" />

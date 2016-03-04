@@ -16,6 +16,7 @@ namespace ShoppingDeals.Controllers
             db = cli.GetDatabase(databaseName);
             dealCollection = db.GetCollection<Deal>(DealsCollectionName);
             userCollection = db.GetCollection<User>(UserCollectionName);
+            ratingCollection = db.GetCollection<Rating>(RatingCollectionName);
             LoggedInUsers = new Dictionary<Guid, User>();
         }
 
@@ -23,9 +24,11 @@ namespace ShoppingDeals.Controllers
         {
             await db.DropCollectionAsync(DealsCollectionName);
             await db.DropCollectionAsync(UserCollectionName);
+            await db.DropCollectionAsync(RatingCollectionName);
 
             await CreateDealsCollection();
             await CreateUserCollection();
+            await CreateRatingCollection();
         }
     }
 }
