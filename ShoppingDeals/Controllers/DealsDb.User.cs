@@ -65,10 +65,12 @@ namespace ShoppingDeals.Controllers
             {
                 await userCollection.InsertOneAsync(user);
             }
-            catch (MongoWriteException whatException)
+            catch (MongoWriteException ex)
             {
-                if (whatException.Message.Contains("E11000"))
-                    throw new ArgumentException("A user with the same name has already been added.");
+                if (ex.Message.Contains("E11000"))
+                {
+                    throw new AlreadyExistsException("A user with the same name has already been added.", ex);
+                }
             }
         }
     }

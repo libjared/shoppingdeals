@@ -44,10 +44,12 @@ namespace ShoppingDeals.Controllers
             {
                 await dealCollection.InsertOneAsync(deal);
             }
-            catch (MongoWriteException whatException)
+            catch (MongoWriteException ex)
             {
-                if (whatException.Message.Contains("E11000"))
-                    throw new ArgumentException("A deal with the same unique information has already been added.");
+                if (ex.Message.Contains("E11000"))
+                {
+                    throw new AlreadyExistsException("A deal with the same unique information has already been added.", ex);
+                }
             }
         }
     }

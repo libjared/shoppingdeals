@@ -31,7 +31,7 @@ namespace ShoppingDealsTests
             {
                 await db.RegisterUser("jared", "securepassw0rd");
             }
-            catch (ArgumentException)
+            catch (AlreadyExistsException)
             {
                 return;
             }

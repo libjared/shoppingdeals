@@ -54,7 +54,7 @@ namespace ShoppingDealsTests
             {
                 await AddTestDeal();
             }
-            catch (ArgumentException)
+            catch (AlreadyExistsException)
             {
                 return;
             }
