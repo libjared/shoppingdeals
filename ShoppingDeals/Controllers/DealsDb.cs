@@ -10,27 +10,29 @@ namespace ShoppingDeals.Controllers
     {
         private readonly IMongoDatabase db;
         private readonly IMongoCollection<Deal> dealCollection;
-        private string CollectionName { get; }
+        private string DatabaseName { get; }
 
-        public DealsDb(string collectionName)
+        private const string DealsCollectionName = "deals";
+
+        public DealsDb(string databaseName)
         {
-            CollectionName = collectionName;
+            DatabaseName = databaseName;
 
             var cli = new MongoClient("mongodb://localhost:27017");
-            db = cli.GetDatabase("shoppingdeals");
-            dealCollection = db.GetCollection<Deal>(collectionName);
+            db = cli.GetDatabase(databaseName);
+            dealCollection = db.GetCollection<Deal>(DealsCollectionName);
         }
 
         public async Task Reinitialize()
         {
-            await db.DropCollectionAsync(CollectionName);
+            await db.DropCollectionAsync(DealsCollectionName);
 
             await CreateDealsCollection();
         }
 
         private async Task CreateDealsCollection()
         {
-            await db.CreateCollectionAsync(CollectionName);
+            await db.CreateCollectionAsync(DealsCollectionName);
             var keys = Builders<Deal>.IndexKeys
                 .Ascending("StoreName").Ascending("ProductName")
                 .Ascending("ExpirationDate").Ascending("Price");
