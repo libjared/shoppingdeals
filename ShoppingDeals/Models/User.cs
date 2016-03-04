@@ -1,9 +1,13 @@
-﻿namespace ShoppingDeals.Models
+﻿using MongoDB.Bson;
+
+namespace ShoppingDeals.Models
 {
     public class User
     {
         public string Name { get; set; }
         public string PasswordHash { get; set; }
+
+        public ObjectId Id { get; set; }
 
         public User(string name, string passwordHash)
         {
