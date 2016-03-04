@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using ShoppingDeals.Controllers;
 using ShoppingDeals.Models;
 
 namespace ShoppingDealsTests
@@ -76,6 +75,43 @@ namespace ShoppingDealsTests
             var results = await db.GetDeals(prod, store, zip);
             var deals = results.ToList();
             Assert.That(deals.Count, Is.EqualTo(expectedCount));
+        }
+
+        [Test]
+        [Timeout(1000*60*2)] //better be cleaned up in 2 minutes
+        public async Task TestDealExpire()
+        {
+            var testDeal = new Deal
+            {
+                ProductName = "almost-expired milk",
+                Price = 0.05m,
+                StoreName = "Walmart",
+                ZipCode = "9876",
+                ExpirationDate = DateTime.Now.AddSeconds(5)
+            };
+            await db.AddDeal(testDeal);
+
+            //see if it's still there
+            var found = db.GetSpecificDeal(testDeal.StoreName, testDeal.ProductName, testDeal.ExpirationDate, testDeal.Price);
+            Assert.That(found, Is.Not.Null);
+
+            var startedChecking = DateTime.Now;
+
+            Deal foundTwo;
+            do
+            {
+                //wait a while
+                await Task.Delay(new TimeSpan(0, 0, 1));
+
+                //it should be gone
+                foundTwo =
+                    await
+                        db.GetSpecificDeal(testDeal.StoreName, testDeal.ProductName, testDeal.ExpirationDate,
+                            testDeal.Price);
+            } while (foundTwo != null);
+
+            var timeTaken = DateTime.Now - startedChecking;
+            Console.WriteLine($"Should have taken 5 seconds but {timeTaken.TotalMilliseconds} ms is fine too");
         }
 
         [Test]
