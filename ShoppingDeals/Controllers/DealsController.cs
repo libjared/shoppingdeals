@@ -19,7 +19,9 @@ namespace ShoppingDeals.Controllers
 
         public static async Task Initialize()
         {
-            db = new DealsDb("deals");
+            StaticDealsDb.Initialize("shoppingdeals");
+            db = StaticDealsDb.Db;
+
             await db.Reinitialize();
         }
 

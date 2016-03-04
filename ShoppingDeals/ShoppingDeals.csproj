@@ -135,6 +135,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DealsController.cs" />
     <Compile Include="Controllers\DealsDb.cs" />
+    <Compile Include="Controllers\StaticDealsDb.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

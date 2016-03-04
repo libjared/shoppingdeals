@@ -16,7 +16,7 @@ namespace ShoppingDealsTests
         [SetUp]
         public async Task InitDb()
         {
-            db = new DealsDb("test");
+            db = new DealsDb("shoppingdeals-test");
             await db.Reinitialize();
         }
 
