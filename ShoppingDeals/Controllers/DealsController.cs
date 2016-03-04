@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using ShoppingDeals.Models;
 
 // ReSharper disable UnusedMember.Global
@@ -27,6 +27,12 @@ namespace ShoppingDeals.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetDeals(string prod = null, string store = null, string zip = null)
         {
+            var authUser = GetThisAuthenticatedUser();
+            if (authUser == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized);
+            }
+
             var data = await db.GetDeals(prod, store, zip);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
@@ -35,8 +41,43 @@ namespace ShoppingDeals.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> PostDeal(PostedDeal postedDeal)
         {
+            var authUser = GetThisAuthenticatedUser();
+            if (authUser == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized);
+            }
+
             await db.AddDeal(postedDeal.ToDeal());
             return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        private User GetThisAuthenticatedUser()
+        {
+            //check if apikey is in the headers
+            IEnumerable<string> headerValues;
+            if (!Request.Headers.TryGetValues("X-Deals-ApiKey", out headerValues))
+            {
+                return null;
+            }
+
+            //check if apikey header has a value
+            var apikey = headerValues.FirstOrDefault();
+            if (apikey == null)
+            {
+                return null;
+            }
+
+            //check if apikey is a guid
+            Guid apikeyGuid;
+            if (!Guid.TryParse(apikey, out apikeyGuid))
+            {
+                return null;
+            }
+
+            //check if the apikey is real
+            var thisUser = db.GetUserFromApiKey(apikeyGuid);
+
+            return thisUser;
         }
     }
 }

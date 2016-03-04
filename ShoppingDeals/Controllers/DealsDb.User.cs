@@ -72,5 +72,12 @@ namespace ShoppingDeals.Controllers
                 }
             }
         }
+
+        public User GetUserFromApiKey(Guid apikey)
+        {
+            User thisUser;
+            LoggedInUsers.TryGetValue(apikey, out thisUser);
+            return thisUser;
+        }
     }
 }
