@@ -20,6 +20,11 @@ namespace ShoppingDeals.Models
         public int Dislikes { get; set; }
 
         public ObjectId Id { get; set; }
+
+        public void SetPostedBy(User who)
+        {
+            UserPostedBy = who.Id;
+        }
     }
 
     public class PostedDeal
