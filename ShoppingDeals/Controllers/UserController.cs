@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Newtonsoft.Json.Linq;
+using ShoppingDeals.Models;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -20,11 +21,35 @@ namespace ShoppingDeals.Controllers
             db = StaticDealsDb.Db;
         }
 
+        [Route("register")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> Register([FromBody]RegisterLoginUser user)
+        {
+            try
+            {
+                await db.RegisterUser(user.Name, user.Password);
+            }
+            catch (AlreadyExistsException ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.Conflict);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
         [Route("login")]
         [HttpPost]
-        public async Task<HttpResponseMessage> Login([FromBody]JToken jsonbody)
+        public async Task<HttpResponseMessage> Login([FromBody]RegisterLoginUser user)
         {
-            throw new NotImplementedException();
+            Guid apikey;
+            try
+            {
+                apikey = await db.LoginUser(user.Name, user.Password);
+            }
+            catch (CredentialsException)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, apikey);
         }
     }
 }
