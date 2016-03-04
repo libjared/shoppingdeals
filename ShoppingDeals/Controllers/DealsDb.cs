@@ -10,9 +10,13 @@ namespace ShoppingDeals.Controllers
     {
         private readonly IMongoDatabase db;
         private readonly IMongoCollection<Deal> dealCollection;
+        private readonly IMongoCollection<User> userCollection;
         private string DatabaseName { get; }
 
         private const string DealsCollectionName = "deals";
+        private const string UserCollectionName = "user";
+
+        private Dictionary<string, User> LoggedInUsers { get; }
 
         public DealsDb(string databaseName)
         {
@@ -21,14 +25,20 @@ namespace ShoppingDeals.Controllers
             var cli = new MongoClient("mongodb://localhost:27017");
             db = cli.GetDatabase(databaseName);
             dealCollection = db.GetCollection<Deal>(DealsCollectionName);
+            userCollection = db.GetCollection<User>(UserCollectionName);
+            LoggedInUsers = new Dictionary<string, User>();
         }
 
         public async Task Reinitialize()
         {
             await db.DropCollectionAsync(DealsCollectionName);
+            await db.DropCollectionAsync(UserCollectionName);
 
             await CreateDealsCollection();
+            await CreateUserCollection();
         }
+
+        #region Deals
 
         private async Task CreateDealsCollection()
         {
@@ -69,5 +79,63 @@ namespace ShoppingDeals.Controllers
                     throw new ArgumentException("A deal with the same key has already been added.");
             }
         }
+
+        #endregion
+
+        #region User
+
+        private async Task CreateUserCollection()
+        {
+            await db.CreateCollectionAsync(UserCollectionName);
+            var keys = Builders<User>.IndexKeys
+                .Ascending("Name");
+            await userCollection.Indexes.CreateOneAsync(keys, new CreateIndexOptions
+            {
+                Unique = true
+            });
+        }
+
+        public async Task RegisterUser(string desiredName, string password)
+        {
+            //TODO: check dupe name
+            var storedHash = PasswordStorage.Hash(password);
+            var thisUser = new User(desiredName, storedHash);
+            await AddUser(thisUser);
+        }
+
+        public async Task<string> LoginUser(string username, string password)
+        {
+            var thisUser = await GetUserByName(username);
+            if (thisUser == null) //user does not exist
+            {
+                throw new ArgumentException();
+            }
+
+            var isOkCredentials = PasswordStorage.PasswordMatch(password, thisUser.PasswordHash);
+            if (!isOkCredentials) //bad password
+            {
+                throw new ArgumentException();
+            }
+
+            //login success. generate api key and log him in
+            var uniqBytes = PasswordStorage.GenerateRandomBytes(30);
+            var apiKey = Convert.ToBase64String(uniqBytes);
+            LoggedInUsers.Add(apiKey, thisUser);
+            return apiKey;
+        }
+
+        private async Task<User> GetUserByName(string username)
+        {
+            var filter = Builders<User>.Filter.Eq("Name", username);
+            var users = await userCollection.FindAsync<User>(filter);
+            return users.FirstOrDefault();
+        }
+
+        private async Task AddUser(User user)
+        {
+            await userCollection.InsertOneAsync(user);
+        }
+
+        #endregion
     }
 }
