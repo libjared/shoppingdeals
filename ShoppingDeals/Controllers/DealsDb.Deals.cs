@@ -21,6 +21,13 @@ namespace ShoppingDeals.Controllers
             {
                 Unique = true
             });
+
+            var expireKeys = Builders<Deal>.IndexKeys
+                .Ascending("ExpirationDate");
+            await dealCollection.Indexes.CreateOneAsync(expireKeys, new CreateIndexOptions<Deal>
+            {
+                ExpireAfter = new TimeSpan(0L) //0 means interpret key as date
+            });
         }
 
         public async Task<Deal> GetSpecificDeal(string storeName, string productName, DateTime expiration, decimal price)
