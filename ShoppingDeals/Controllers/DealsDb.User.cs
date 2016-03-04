@@ -25,7 +25,6 @@ namespace ShoppingDeals.Controllers
 
         public async Task RegisterUser(string desiredName, string password)
         {
-            //TODO: check dupe name
             var storedHash = PasswordStorage.Hash(password);
             var thisUser = new User(desiredName, storedHash);
             await AddUser(thisUser);
