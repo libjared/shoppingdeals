@@ -36,6 +36,8 @@ namespace ShoppingDeals.Controllers
 
             var cursor = await dealCollection.FindAsync<Deal>(filterFinal);
             var deal = await cursor.FirstOrDefaultAsync();
+            if (deal == null)
+                return null;
 
             await SetRating(deal);
             return deal;

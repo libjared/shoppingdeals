@@ -78,6 +78,9 @@ namespace ShoppingDeals.Controllers
                     db.GetSpecificDeal(ratingRequest.StoreName, ratingRequest.ProductName, ratingRequest.ExpirationDate,
                         ratingRequest.Price);
 
+            if (theDeal == null)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+
             await db.RateDeal(theDeal, authUser, isPositive);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
