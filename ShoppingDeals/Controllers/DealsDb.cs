@@ -133,7 +133,15 @@ namespace ShoppingDeals.Controllers
 
         private async Task AddUser(User user)
         {
-            await userCollection.InsertOneAsync(user);
+            try
+            {
+                await userCollection.InsertOneAsync(user);
+            }
+            catch (MongoWriteException whatException)
+            {
+                if (whatException.Message.Contains("E11000"))
+                    throw new ArgumentException("A user with the same name has already been added.");
+            }
         }
 
         #endregion
