@@ -135,6 +135,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DealsController.cs" />
     <Compile Include="Controllers\DealsDb.cs" />
+    <Compile Include="Controllers\DealsDb.Deals.cs" />
+    <Compile Include="Controllers\DealsDb.User.cs" />
     <Compile Include="Controllers\PasswordStorage.cs" />
     <Compile Include="Controllers\StaticDealsDb.cs" />
     <Compile Include="Controllers\UserController.cs" />
