@@ -47,7 +47,7 @@ namespace ShoppingDeals.Controllers
 
             //login success. generate api key and log him in
             var apiKey = Guid.NewGuid();
-            LoggedInUsers.Add(Guid.NewGuid(), thisUser);
+            LoggedInUsers.Add(apiKey, thisUser);
             return apiKey;
         }
 
