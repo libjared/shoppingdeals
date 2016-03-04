@@ -36,13 +36,13 @@ namespace ShoppingDeals.Controllers
             var thisUser = await GetUserByName(username);
             if (thisUser == null) //user does not exist
             {
-                throw new ArgumentException();
+                throw new CredentialsException();
             }
 
             var isOkCredentials = PasswordStorage.PasswordMatch(password, thisUser.PasswordHash);
             if (!isOkCredentials) //bad password
             {
-                throw new ArgumentException();
+                throw new CredentialsException();
             }
 
             //login success. generate api key and log him in

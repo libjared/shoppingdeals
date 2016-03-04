@@ -9,4 +9,8 @@ namespace ShoppingDeals.Models
         {
         }
     }
+
+    public class CredentialsException : Exception
+    {
+    }
 }
