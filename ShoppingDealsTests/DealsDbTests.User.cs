@@ -69,5 +69,43 @@ namespace ShoppingDealsTests
             var apikey2 = await LoginUserTestA(); //login again, making a new key
             Assert.That(apikey1, Is.Not.EqualTo(apikey2));
         }
+
+        [Test]
+        public async Task TestLoginBadUsername()
+        {
+            await RegUserTestA();
+            try
+            {
+                await db.LoginUser("deraj", "securepassw0rd");
+            }
+            catch (ArgumentException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.ToString());
+            }
+            Assert.Fail("No exception thrown");
+        }
+
+        [Test]
+        public async Task TestLoginBadPassword()
+        {
+            await RegUserTestA();
+            try
+            {
+                await db.LoginUser("jared", "wr00000ngpassword");
+            }
+            catch (ArgumentException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.ToString());
+            }
+            Assert.Fail("No exception thrown");
+        }
     }
 }
