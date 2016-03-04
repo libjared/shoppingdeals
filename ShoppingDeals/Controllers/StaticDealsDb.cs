@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace ShoppingDeals.Controllers
+﻿namespace ShoppingDeals.Controllers
 {
     public static class StaticDealsDb
     {
