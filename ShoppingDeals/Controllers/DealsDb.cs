@@ -76,7 +76,7 @@ namespace ShoppingDeals.Controllers
             catch (MongoWriteException whatException)
             {
                 if (whatException.Message.Contains("E11000"))
-                    throw new ArgumentException("A deal with the same key has already been added.");
+                    throw new ArgumentException("A deal with the same unique information has already been added.");
             }
         }
 
